@@ -609,7 +609,7 @@ function zoo_pk_assistGroup(inviteId = "",timeout = 0) {
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
         try {
-          //console.log('商圈助力：' + data)
+          console.log('商圈助力：' + data+inviteId)
           data = JSON.parse(data);
         } catch (e) {
           $.logErr(e, resp);
@@ -768,7 +768,7 @@ function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           if (inviteId !== "") {
-            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianBeastShareCode.txt").then((text) => (shareCodeList = text ? text.split('\n') : []))
+            await $.getScript("https://raw.githubusercontent.com/1220515996/zoo/main/sharecode.txt").then((text) => (shareCodeList = text ? text.split('\n') : []))
             for (let i in shareCodeList) {
               if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
             }
@@ -792,7 +792,7 @@ function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
               return;
             let list = data.data.result.groupInfo.skillList;
             for (let i = list.length -1; i>=0; i--) {
-              if (parseInt(list[i].num) > 0) {
+              if (parseInt(list[i].num) > 0 && new Date().getHours()>= 18) {
                 await zoo_pk_doPkSkill(list[i].code,800);
                 await zoo_pk_getHomeData();
                 break;
